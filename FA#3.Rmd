@@ -1,0 +1,46 @@
+---
+title: "FA#3"
+output: html_document
+date: "2023-09-07"
+---
+Use R or Python to find Q1, Q2, Q3, D9, and P95 and other measures for the following sample of test scores: (See expected table of descriptive measures below.)
+
+
+88 45 53 86 33 86 85 30 89 53 41 96 56 38 62
+71 51 86 68 29 28 47 33 37 25 36 33 94 73 46
+42 34 79 72 88 99 82 62 57 42 28 55 67 62 60
+96 61 57 75 93 34 75 53 32 28 73 51 69 91 35
+
+```{r setup}
+testscores <- c(88, 45, 53, 86, 33, 86, 85, 30, 89, 53, 41, 96, 56, 38, 62, 71, 51, 86, 68, 29, 28, 47, 33, 37, 25, 36, 33, 94, 73, 46, 42, 34, 79, 72, 88, 99, 82, 62, 57, 42, 28, 55, 67, 62, 60, 96, 61, 57, 75, 93, 34, 75, 53, 32, 28, 73, 51, 69, 91, 35)
+
+valid <- sum(!is.na(testscores)) 
+mode <- as.numeric(names(sort(table(testscores), decreasing=TRUE)[1])) 
+median <- median(testscores)
+mean <- mean(testscores)
+stddev <- sd(testscores)
+variance <- var(testscores)
+skewness <- moments::skewness(testscores)
+seskewness <- sqrt(6/valid)
+kurtosis <- moments::kurtosis(testscores) - 3
+sekurtosis <- sqrt(24/valid)
+min <- min(testscores)
+max <- max(testscores)
+Q1 <- quantile(testscores, 0.25)
+Q2 <- quantile(testscores, 0.5)
+Q3 <- quantile(testscores, 0.75)
+D9 <- quantile(testscores, 0.9)
+P95 <- quantile(testscores, 0.95)
+```
+
+
+
+```{r cars}
+statstable <- data.frame(
+  DescriptiveStatistics = c( "Valid", "Mode", "Median", "Mean", "Std. Deviation", "Variance", "Skewness", "Std. Error of Skewness", "Kurtosis", "Std. Error of Kurtosis", "Minimum", "Maximum","Q1 (25th percentile)", "Q2 (Median or 50th percentile)", "Q3 (75th percentile)", "D9 (90th percentile)", "P95 (95th percentile)"),
+  
+  Score = c(valid, mode, median, mean, stddev, variance, skewness, seskewness, kurtosis, sekurtosis, min, max,Q1, Q2, Q3, D9, P95))
+
+print(statstable)
+
+```
